@@ -28,6 +28,3 @@ logs/
 *.log
 npm-debug.log*
 pnpm-debug.log*
-
-# Prisma
-packages/backend/prisma/migrations/

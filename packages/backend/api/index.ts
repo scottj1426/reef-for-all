@@ -1,3 +1,3 @@
-import app from './app';
+import app from '../src/app';
 
-export default app; // Vercel wraps this as a serverless function
+export default app;
