@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String    @id @default(uuid()) @db.Uuid
+  auth0Id               String    @unique @map("auth0_id")
+  email                 String    @unique
+  username              String?   @unique
+  firstName             String?   @map("first_name")
+  lastName              String?   @map("last_name")
+  bio                   String?
+  avatarUrl             String?   @map("avatar_url")
+  location              String?
+  subscriptionTier      String    @default("free") @map("subscription_tier")
+  subscriptionExpiresAt DateTime? @map("subscription_expires_at")
+  emailVerified         Boolean   @default(false) @map("email_verified")
+  isActive              Boolean   @default(true) @map("is_active")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  tanks                 Tank[]
+
+  @@index([email])
+  @@index([auth0Id])
+  @@map("users")
+}
+
+model Tank {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  size        Int      @map("size")
+  type        String   @default("reef")
+  description String?
+  imageUrl    String?  @map("image_url")
+  userId      String   @map("user_id") @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("tanks")
+}

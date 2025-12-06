@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(if [ -f /c/Users/scott/workspace/reef-for-all/package.json ])",
+      "Bash(then cat /c/Users/scott/workspace/reef-for-all/package.json)",
+      "Bash(else echo \"No package.json found\")",
+      "Bash(fi)",
+      "WebSearch",
+      "Bash(npx create-next-app:*)",
+      "Bash(pnpm create:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(if [ -f \"package.json\" ])",
+      "Bash(then echo \"Found package.json, checking for React dependencies...\")",
+      "Bash(cat:*)",
+      "Bash(else echo \"No package.json found, will create new project\")",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(pnpm install:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(pnpm run dev)",
+      "Bash(curl:*)",
+      "Bash(pnpm add:*)",
+      "Bash(ls:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(pnpm list:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(claude mcp list:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
