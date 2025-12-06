@@ -25,8 +25,8 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API Routes
-app.use('/api', routes);
+// API Routes (no /api prefix - Vercel handles that)
+app.use('/', routes);
 
 // Error handling
 app.use(errorHandler);
