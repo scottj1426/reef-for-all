@@ -1,4 +1,5 @@
-import app from '../src/app';
-import { Request, Response } from 'express';
+// @ts-nocheck
+require('tsx/cjs');
+const app = require('../src/app').default;
 
-export default app;
+module.exports = app;
