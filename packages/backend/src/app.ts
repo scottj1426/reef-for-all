@@ -12,6 +12,9 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
 ].filter((origin): origin is string => !!origin); // type-safe filter
 
+console.log('🔧 CORS Allowed Origins:', allowedOrigins);
+console.log('🌍 FRONTEND_URL from env:', process.env.FRONTEND_URL);
+
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
@@ -19,6 +22,14 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Request logging
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  console.log('Headers:', req.headers);
+  console.log('Origin:', req.get('origin'));
+  next();
+});
 
 // Health check
 app.get('/health', (req, res) => {
