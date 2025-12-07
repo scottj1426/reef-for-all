@@ -45,15 +45,23 @@ export default function Dashboard() {
 
       try {
         setLoading(true);
-        console.log('Starting user sync...', auth0User);
+        console.log('🔐 Starting user sync...', {
+          auth0User,
+          isAuthenticated,
+        });
 
         // Get Auth0 access token
+        console.log('🎫 Getting access token...');
         const accessToken = await getAccessTokenSilently();
-        console.log('Got access token');
+        console.log('✅ Got access token:', accessToken.substring(0, 20) + '...');
         setToken(accessToken);
 
         // Sync user to database
-        console.log('Syncing user to database...');
+        console.log('💾 Syncing user to database...', {
+          email: auth0User.email,
+          firstName: auth0User.given_name,
+          lastName: auth0User.family_name,
+        });
         await userApi.syncUser({
           email: auth0User.email!,
           firstName: auth0User.given_name,
@@ -61,24 +69,32 @@ export default function Dashboard() {
           picture: auth0User.picture,
           email_verified: auth0User.email_verified,
         }, accessToken);
-        console.log('User synced successfully');
+        console.log('✅ User synced successfully');
 
         // Fetch user from database
-        console.log('Fetching user from database...');
+        console.log('👤 Fetching user from database...');
         const dbUser = await userApi.getMe(accessToken);
-        console.log('User fetched:', dbUser);
+        console.log('✅ User fetched:', dbUser);
         setUser(dbUser);
 
         // Fetch user's tanks
-        console.log('Fetching user tanks...');
+        console.log('🐠 Fetching user tanks...');
         const userTanks = await tankApi.getTanksByUserId(dbUser.id);
-        console.log('Tanks fetched:', userTanks);
+        console.log('✅ Tanks fetched:', userTanks);
         setTanks(userTanks);
 
         setError(null);
       } catch (err: any) {
-        console.error('Error syncing user:', err);
-        console.error('Error details:', err.response?.data);
+        console.error('❌ ERROR in user sync:', {
+          error: err,
+          message: err.message,
+          response: err.response,
+          responseData: err.response?.data,
+          status: err.response?.status,
+          config: err.config,
+          isAxiosError: err.isAxiosError,
+          stack: err.stack,
+        });
         setError(err.response?.data?.error || err.message || 'Failed to sync user');
       } finally {
         setLoading(false);
